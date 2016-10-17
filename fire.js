@@ -43,7 +43,7 @@ function updateNSWRecord(payload, done) {
   payload.record.form_values['05e2'] = payload.record.form_values['15af'];
   delete payload.data;
 
-  var query = encodeURIComponent("SELECT _record_id AS fulcrum_id FROM \"Damage Assessment SYNC\" WHERE fire_rescue_record_id = '" + payload.record.form_values['05e2'] + "';");
+  var query = encodeURIComponent("SELECT _record_id AS fulcrum_id FROM \"Damage Assessment SYNC\" WHERE nsw_record_id = '" + payload.record.form_values['05e2'] + "';");
 
   request({
     method: 'GET',
@@ -80,7 +80,7 @@ function deleteNSWRecord(payload, done) {
   payload.record.form_values['05e2'] = payload.record.form_values['15af'];
   delete payload.data;
   
-  var query = encodeURIComponent("SELECT _record_id AS fulcrum_id FROM \"Damage Assessment SYNC\" WHERE fire_rescue_record_id = '" + payload.record.form_values['05e2'] + "'");
+  var query = encodeURIComponent("SELECT _record_id AS fulcrum_id FROM \"Damage Assessment SYNC\" WHERE nsw_record_id = '" + payload.record.form_values['05e2'] + "'");
     
   request({
     method: 'GET',
