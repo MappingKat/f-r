@@ -1,0 +1,13 @@
+{
+  "name": "fire.js",
+  "version": "0.0.3",
+  "dependencies": {
+    "connect-fulcrum-webhook": "^1.0.1",
+    "express": "^4.13.4",
+    "request": "2.75.0"
+  },
+  "engines": {
+    "node": "0.12.x",
+    "npm": "2.10.x"
+  }
+}
