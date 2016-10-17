@@ -20,7 +20,7 @@ function createFireRecord(payload, done) {
   payload.record = payload.data;
   payload.record.form_id = "7989a430-3ef5-4fe4-94b9-c3f958c31db0";
   payload.record.form_values['05e2'] = payload.record.form_values['15af'];
-  console.log(payload.record.form_values['15af']);
+  console.log(payload.record.form_values);
   delete payload.data;
   delete payload.record.id;
 
@@ -58,7 +58,7 @@ function updateFireRecord(payload, done) {
     console.log(httpResponse, body);
     body = JSON.parse(body);
 
-    if (body['rows']){
+    if (body['rows'][0]['fulcrum_id']){
       request({
         method: 'PUT',
         url: 'https://api.fulcrumapp.com/api/v2/records/' + body['rows'][0]['fulcrum_id'] + '.json',
@@ -81,6 +81,7 @@ function deleteFireRecord(payload, done) {
   payload.record = payload.data;
   payload.record.form_id = "7989a430-3ef5-4fe4-94b9-c3f958c31db0";
   payload.record.form_values['05e2'] = payload.record.form_values['15af'];
+  console.log(payload);
   delete payload.data;
   
   var query = encodeURIComponent("SELECT _record_id FROM \"Damage Assessment SYNC\" WHERE nsw_record_id = '" + payload.record.form_values['05e2'] + "'");
@@ -97,7 +98,7 @@ function deleteFireRecord(payload, done) {
   function (err, httpResponse, body) {
     console.log(err, body);
     body = JSON.parse(body);
-    if (body['rows']){
+    if (body['rows'][0]['fulcrum_id']){
       console.log(body['rows'][0]['fulcrum_id']);
       request({
         method: 'DELETE',
