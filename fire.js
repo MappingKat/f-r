@@ -57,20 +57,22 @@ function updateNSWRecord(payload, done) {
     console.log(httpResponse, body);
     body = JSON.parse(body);
     console.log(body['rows'][0]['fulcrum_id']);
-    request({
-      method: 'PUT',
-      url: 'https://api.fulcrumapp.com/api/v2/records/' + body['rows'][0]['fulcrum_id'] + '.json',
-      json: payload.record,
-      headers: {
-        'X-ApiToken': '530bad65b9b7b1289635a6aa16214ed69f13d34b30cd7a5a6cb0e9806e53b1d0630dcdb1c78b2b36'
-      }
-    },
-    function (err, httpResponse, body) {
-      console.log('PUT', err)
-      console.log('PUT', body);
+    if (body['rows']){
+      request({
+        method: 'PUT',
+        url: 'https://api.fulcrumapp.com/api/v2/records/' + body['rows'][0]['fulcrum_id'] + '.json',
+        json: payload.record,
+        headers: {
+          'X-ApiToken': '530bad65b9b7b1289635a6aa16214ed69f13d34b30cd7a5a6cb0e9806e53b1d0630dcdb1c78b2b36'
+        }
+      },
+      function (err, httpResponse, body) {
+        console.log('PUT', err)
+        console.log('PUT', body);
+      });
+    }
+      done();
     });
-    done();
-  });
   delete payload.record.id;
 }
 
@@ -81,6 +83,7 @@ function deleteNSWRecord(payload, done) {
   delete payload.data;
   
   var query = encodeURIComponent("SELECT _record_id AS fulcrum_id FROM \"Damage Assessment SYNC\" WHERE nsw_record_id = '" + payload.record.form_values['05e2'] + "'");
+  console.log(query);
     
   request({
     method: 'GET',
@@ -94,18 +97,19 @@ function deleteNSWRecord(payload, done) {
     console.log(err, body);
     body = JSON.parse(body);
     console.log(body['rows'][0]['fulcrum_id']);
-    request({
-      method: 'DELETE',
-      url: 'https://api.fulcrumapp.com/api/v2/records/' + body['rows'][0]['fulcrum_id'] + '.json',
-      json: payload.record,
-      headers: {
-        'X-ApiToken': '530bad65b9b7b1289635a6aa16214ed69f13d34b30cd7a5a6cb0e9806e53b1d0630dcdb1c78b2b36'
-      }
-    },
-    function (err, httpResponse, body) {
-      console.log('DELETE', body);
-      console.log('DELETE', body);
-    });
+    if (body['rows']){
+      request({
+        method: 'DELETE',
+        url: 'https://api.fulcrumapp.com/api/v2/records/' + body['rows'][0]['fulcrum_id'] + '.json',
+        json: payload.record,
+        headers: {
+          'X-ApiToken': '530bad65b9b7b1289635a6aa16214ed69f13d34b30cd7a5a6cb0e9806e53b1d0630dcdb1c78b2b36'
+        }
+      },
+      function (err, httpResponse, body) {
+        console.log('DELETE', body);
+      });
+    }
     done();
   });
 
@@ -119,7 +123,7 @@ var fulcrumMiddlewareConfig = {
 app.use('/', fulcrumMiddleware(fulcrumMiddlewareConfig));
 
 app.get('/', function (req, res) {
-  res.send('<html><head><title>NSW Public</title></head><body><h2>Fire Rescue</h2><p>going</p></body></html>');
+  res.send('<html><head><title>NSW Public</title></head><body><h2>NSW records</h2><p>going</p></body></html>');
 })
 
 app.listen(PORT, function () {
