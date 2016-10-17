@@ -7,19 +7,20 @@ var app = express();
 function payloadProcessor (payload, done) {
   if (payload.data.form_id && payload.data.form_id === "c7e35d8e-7bb9-4ee7-a24f-0dcf35b8a6d4"){
     if (payload.type === "record.create") {
-      createNSWRecord(payload, done);
+      createFireRecord(payload, done);
     } else if (payload.type === "record.update") {
-      updateNSWRecord(payload, done);
+      updateFireRecord(payload, done);
     } else if (payload.type === "record.delete") {
-      deleteNSWRecord(payload, done);
+      deleteFireRecord(payload, done);
     }
   }
 }
 
-function createNSWRecord(payload, done) {
+function createFireRecord(payload, done) {
   payload.record = payload.data;
   payload.record.form_id = "7989a430-3ef5-4fe4-94b9-c3f958c31db0";
   payload.record.form_values['05e2'] = payload.record.form_values['15af'];
+  console.log(payload.record.form_values['15af']);
   delete payload.data;
   delete payload.record.id;
 
@@ -28,7 +29,7 @@ function createNSWRecord(payload, done) {
     url: 'https://api.fulcrumapp.com/api/v2/records.json',
     json: payload.record,
     headers: {
-      'X-ApiToken': '530bad65b9b7b1289635a6aa16214ed69f13d34b30cd7a5a6cb0e9806e53b1d0630dcdb1c78b2b36'
+      'X-ApiToken': '9348ccf13cc9af57467947046bd42b15a429f9c203f708e5f2975269e57f08ca7e6f241325839215'
     }
   },
   function (err, httpResponse, body) {
@@ -37,7 +38,7 @@ function createNSWRecord(payload, done) {
   done();
 }
 
-function updateNSWRecord(payload, done) {
+function updateFireRecord(payload, done) {
   payload.record = payload.data;
   payload.record.form_id = '7989a430-3ef5-4fe4-94b9-c3f958c31db0';
   payload.record.form_values['05e2'] = payload.record.form_values['15af'];
@@ -49,21 +50,21 @@ function updateNSWRecord(payload, done) {
     method: 'GET',
     url: 'https://api.fulcrumapp.com/api/v2/query/?format=json&q=' + query,
     headers: {
-      'X-ApiToken': '530bad65b9b7b1289635a6aa16214ed69f13d34b30cd7a5a6cb0e9806e53b1d0630dcdb1c78b2b36',
+      'X-ApiToken': '9348ccf13cc9af57467947046bd42b15a429f9c203f708e5f2975269e57f08ca7e6f241325839215',
       'User-Agent': 'request'
     }
   },
   function (err, httpResponse, body) {
     console.log(httpResponse, body);
     body = JSON.parse(body);
-    console.log(body['rows'][0]['fulcrum_id']);
+
     if (body['rows']){
       request({
         method: 'PUT',
         url: 'https://api.fulcrumapp.com/api/v2/records/' + body['rows'][0]['fulcrum_id'] + '.json',
         json: payload.record,
         headers: {
-          'X-ApiToken': '530bad65b9b7b1289635a6aa16214ed69f13d34b30cd7a5a6cb0e9806e53b1d0630dcdb1c78b2b36'
+          'X-ApiToken': '9348ccf13cc9af57467947046bd42b15a429f9c203f708e5f2975269e57f08ca7e6f241325839215'
         }
       },
       function (err, httpResponse, body) {
@@ -76,34 +77,34 @@ function updateNSWRecord(payload, done) {
   delete payload.record.id;
 }
 
-function deleteNSWRecord(payload, done) {
+function deleteFireRecord(payload, done) {
   payload.record = payload.data;
   payload.record.form_id = "7989a430-3ef5-4fe4-94b9-c3f958c31db0";
   payload.record.form_values['05e2'] = payload.record.form_values['15af'];
   delete payload.data;
   
-  var query = encodeURIComponent("SELECT _record_id AS fulcrum_id FROM \"Damage Assessment SYNC\" WHERE nsw_record_id = '" + payload.record.form_values['05e2'] + "'");
+  var query = encodeURIComponent("SELECT _record_id FROM \"Damage Assessment SYNC\" WHERE nsw_record_id = '" + payload.record.form_values['05e2'] + "'");
   console.log(query);
     
   request({
     method: 'GET',
     url: 'https://api.fulcrumapp.com/api/v2/query/?format=json&q=' + query,
     headers: {
-      'X-ApiToken': '530bad65b9b7b1289635a6aa16214ed69f13d34b30cd7a5a6cb0e9806e53b1d0630dcdb1c78b2b36',
+      'X-ApiToken': '9348ccf13cc9af57467947046bd42b15a429f9c203f708e5f2975269e57f08ca7e6f241325839215',
       'User-Agent': 'request'
     }
   },
   function (err, httpResponse, body) {
     console.log(err, body);
     body = JSON.parse(body);
-    console.log(body['rows'][0]['fulcrum_id']);
     if (body['rows']){
+      console.log(body['rows'][0]['fulcrum_id']);
       request({
         method: 'DELETE',
         url: 'https://api.fulcrumapp.com/api/v2/records/' + body['rows'][0]['fulcrum_id'] + '.json',
         json: payload.record,
         headers: {
-          'X-ApiToken': '530bad65b9b7b1289635a6aa16214ed69f13d34b30cd7a5a6cb0e9806e53b1d0630dcdb1c78b2b36'
+          'X-ApiToken': '9348ccf13cc9af57467947046bd42b15a429f9c203f708e5f2975269e57f08ca7e6f241325839215'
         }
       },
       function (err, httpResponse, body) {
