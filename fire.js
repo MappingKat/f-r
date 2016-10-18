@@ -21,7 +21,6 @@ function createFireRecord(payload, done) {
   payload.record.form_id = "7989a430-3ef5-4fe4-94b9-c3f958c31db0";
   payload.record.form_values["05e2"] = payload.record.form_values["15af"];
   console.log(payload.record.form_values);
-  console.log(payload.record.form_values['15af'])
   console.log(payload.record.form_values["15af"]);
   delete payload.data;
   delete payload.record.id;
