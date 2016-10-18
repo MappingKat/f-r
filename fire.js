@@ -58,10 +58,10 @@ function updateFireRecord(payload, done) {
     console.log(httpResponse, body);
     body = JSON.parse(body);
 
-    if (body.rows[0].fulcrum_id){
+    if (body['rows'][0]['fulcrum_id']){
       request({
         method: 'PUT',
-        url: 'https://api.fulcrumapp.com/api/v2/records/' + body.rows[0].fulcrum_id + '.json',
+        url: 'https://api.fulcrumapp.com/api/v2/records/' + body['rows'][0]['fulcrum_id'] + '.json',
         json: payload.record,
         headers: {
           'X-ApiToken': '9348ccf13cc9af57467947046bd42b15a429f9c203f708e5f2975269e57f08ca7e6f241325839215'
@@ -100,11 +100,11 @@ function deleteFireRecord(payload, done) {
   function (err, httpResponse, body) {
     console.log(err, body);
     body = JSON.parse(body);
-    if (body.rows[0].fulcrum_id){
-      console.log(body.rows[0].fulcrum_id);
+    if (body['rows'][0]['fulcrum_id']){
+      console.log(body['rows'][0]['fulcrum_id']);
       request({
         method: 'DELETE',
-        url: 'https://api.fulcrumapp.com/api/v2/records/' + body.rows[0].fulcrum_id + '.json',
+        url: 'https://api.fulcrumapp.com/api/v2/records/' + body['rows'][0]['fulcrum_id'] + '.json',
         json: payload.record,
         headers: {
           'X-ApiToken': '9348ccf13cc9af57467947046bd42b15a429f9c203f708e5f2975269e57f08ca7e6f241325839215'
