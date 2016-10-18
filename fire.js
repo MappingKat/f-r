@@ -1,7 +1,7 @@
 var express = require('express');
 var fulcrumMiddleware = require('connect-fulcrum-webhook');
 var request = require('request');
-var PORT = process.env.PORT || 9001;
+var PORT = process.env.PORT || 9011;
 var app = express();
 
 function payloadProcessor (payload, done) {
@@ -40,13 +40,13 @@ function createFireRecord(payload, done) {
 }
 
 function updateFireRecord(payload, done) {
-  // payload.record = payload.data;
-  // payload.record.form_id = '7989a430-3ef5-4fe4-94b9-c3f958c31db0';
-  // payload.record.form_values['05e2'] = payload.record.form_values['15af'];
-  // delete payload.data;
+  payload.record = payload.data;
+  payload.record.form_id = '7989a430-3ef5-4fe4-94b9-c3f958c31db0';
+  payload.record.form_values['05e2'] = payload.record.form_values['15af'];
+  delete payload.data;
 
-  // var query = encodeURIComponent("SELECT _record_id AS fulcrum_id FROM \"Damage Assessment SYNC\" WHERE nsw_record_id = '" + payload.record.form_values['05e2'] + "'");
-
+  var query = encodeURIComponent("SELECT _record_id AS fulcrum_id FROM \"Damage Assessment SYNC\" WHERE nsw_record_id = '" + payload.record.form_values['05e2'] + "'");
+  console.log(query);
   // request({
   //   method: 'GET',
   //   url: 'https://api.fulcrumapp.com/api/v2/query/?format=json&q=' + query,
@@ -77,18 +77,18 @@ function updateFireRecord(payload, done) {
   //   }
   //     done();
   //   });
-  // delete payload.record.id;
+  delete payload.record.id;
 }
 
 function deleteFireRecord(payload, done) {
-  // payload.record = payload.data;
-  // payload.record.form_id = "7989a430-3ef5-4fe4-94b9-c3f958c31db0";
-  // payload.record.form_values['05e2'] = payload.record.form_values['15af'];
-  // console.log('VALUE', payload.record.form_values['15af']);
-  // delete payload.data;
+  payload.record = payload.data;
+  payload.record.form_id = "7989a430-3ef5-4fe4-94b9-c3f958c31db0";
+  payload.record.form_values['05e2'] = payload.record.form_values['15af'];
+  console.log('VALUE', payload.record.form_values['15af']);
+  delete payload.data;
   
-  // var query = encodeURIComponent("SELECT _record_id FROM \"Damage Assessment SYNC\" WHERE nsw_record_id = '" + payload.record.form_values['05e2'] + "'");
-  // console.log(query);
+  var query = encodeURIComponent("SELECT _record_id FROM \"Damage Assessment SYNC\" WHERE nsw_record_id = '" + payload.record.form_values['05e2'] + "'");
+  console.log(query);
     
   // request({
   //   method: 'GET',
