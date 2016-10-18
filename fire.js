@@ -59,7 +59,7 @@ function updateFireRecord(payload, done) {
     function (err, httpResponse, body) {
       console.log(httpResponse, body);
       body = JSON.parse(body);
-
+      body['rows'][0] && 
       request({
         method: 'PUT',
         url: 'https://api.fulcrumapp.com/api/v2/records/' + body['rows'][0]['fulcrum_id'] + '.json',
@@ -99,8 +99,7 @@ function deleteFireRecord(payload, done) {
     function (err, httpResponse, body) {
       console.log(err, body);
       body = JSON.parse(body);
-      if (body['rows'][0]['fulcrum_id']){
-        console.log(body['rows'][0]['fulcrum_id']);
+      if (body['rows'][0] && body['rows'][0]['fulcrum_id']){
         request({
           method: 'DELETE',
           url: 'https://api.fulcrumapp.com/api/v2/records/' + body['rows'][0]['fulcrum_id'] + '.json',
