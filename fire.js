@@ -30,7 +30,7 @@ function createFireRecord(payload, done) {
     url: 'https://api.fulcrumapp.com/api/v2/records.json',
     json: payload.record,
     headers: {
-      'X-ApiToken': '9348ccf13cc9af57467947046bd42b15a429f9c203f708e5f2975269e57f08ca7e6f241325839215'
+      'X-ApiToken': ''
     }
   },
   function (err, httpResponse, body) {
@@ -52,7 +52,7 @@ function updateFireRecord(payload, done) {
       method: 'GET',
       url: 'https://api.fulcrumapp.com/api/v2/query/?format=json&q=' + query,
       headers: {
-        'X-ApiToken': '9348ccf13cc9af57467947046bd42b15a429f9c203f708e5f2975269e57f08ca7e6f241325839215',
+        'X-ApiToken': '',
         'User-Agent': 'request'
       }
     },
@@ -92,7 +92,7 @@ function deleteFireRecord(payload, done) {
       method: 'GET',
       url: 'https://api.fulcrumapp.com/api/v2/query/?format=json&q=' + query,
       headers: {
-        'X-ApiToken': '9348ccf13cc9af57467947046bd42b15a429f9c203f708e5f2975269e57f08ca7e6f241325839215',
+        'X-ApiToken': '',
         'User-Agent': 'request'
       }
     },
@@ -105,7 +105,7 @@ function deleteFireRecord(payload, done) {
           url: 'https://api.fulcrumapp.com/api/v2/records/' + body['rows'][0]['fulcrum_id'] + '.json',
           json: payload.record,
           headers: {
-            'X-ApiToken': '9348ccf13cc9af57467947046bd42b15a429f9c203f708e5f2975269e57f08ca7e6f241325839215'
+            'X-ApiToken': ''
           }
         },
         function (err, httpResponse, body) {
